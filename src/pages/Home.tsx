@@ -35,7 +35,7 @@ export const Home = () => {
     <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
       <Paper
         sx={(theme) => ({
-          p: { xs: 3, sm: 4 }, // Padding un poco menor en móviles
+          p: { xs: 3, sm: 4 },
           mb: 4,
           background:
             theme.palette.mode === 'light'
