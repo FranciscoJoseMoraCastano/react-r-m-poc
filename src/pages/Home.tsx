@@ -34,39 +34,74 @@ export const Home = () => {
   return (
     <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
       <Paper
-        sx={{
-          p: 4,
+        sx={(theme) => ({
+          p: { xs: 3, sm: 4 }, // Padding un poco menor en móviles
           mb: 4,
-          textAlign: 'center',
-          background: 'linear-gradient(135deg, #1976d2 0%, #0d47a1 100%)',
+          background:
+            theme.palette.mode === 'light'
+              ? 'linear-gradient(135deg, #84cc16 0%, #4d7c0f 100%)'
+              : 'linear-gradient(135deg, #6d28d9 0%, #1e1b4b 100%)',
           color: 'white',
-        }}
+          borderRadius: 3,
+        })}
       >
-        <Typography variant="h3" component="h1" gutterBottom sx={{ fontWeight: 'bold' }}>
-          {t('home.title')}
-        </Typography>
-        <Typography variant="h6" sx={{ opacity: 0.9, mb: 3 }}>
-          {t('home.subtitle', 'Explora personajes, realiza búsquedas filtradas y guarda tus favoritos locales.')}
-        </Typography>
-        <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, flexWrap: 'wrap' }}>
-          <Button
-            variant="contained"
-            color="secondary"
-            size="large"
-            startIcon={<PeopleIcon />}
-            onClick={() => navigate('/characters')}
-          >
-            {t('home.viewCharacters', 'Ver Personajes')}
-          </Button>
-          <Button
-            variant="outlined"
-            size="large"
-            sx={{ color: 'white', borderColor: 'white' }}
-            startIcon={<SearchIcon />}
-            onClick={() => navigate('/search')}
-          >
-            {t('home.advancedSearch', 'Búsqueda Avanzada')}
-          </Button>
+        <Box 
+          sx={{ 
+            display: 'flex', 
+            flexDirection: { xs: 'column', sm: 'row' }, 
+            alignItems: 'center', 
+            gap: { xs: 3, md: 5 }
+          }}
+        >
+          <Box
+            component="img"
+            src="/logo.png"
+            alt="Logo de la App"
+            sx={{
+              width: { xs: 150, sm: 200 },
+              height: 'auto',
+              borderRadius: '50%',
+              boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
+              border: '4px solid rgba(255,255,255,0.2)'
+            }}
+          />
+
+          <Box sx={{ flex: 1, textAlign: { xs: 'center', sm: 'left' } }}>
+            <Typography variant="h3" component="h1" gutterBottom sx={{ fontWeight: 'bold' }}>
+              {t('home.title')}
+            </Typography>
+            <Typography variant="h6" sx={{ opacity: 0.9, mb: 3 }}>
+              {t('home.subtitle')}
+            </Typography>
+            
+            <Box 
+              sx={{ 
+                display: 'flex', 
+                justifyContent: { xs: 'center', sm: 'flex-start' }, 
+                gap: 2, 
+                flexWrap: 'wrap' 
+              }}
+            >
+              <Button
+                variant="contained"
+                color="secondary"
+                size="large"
+                startIcon={<PeopleIcon />}
+                onClick={() => navigate('/characters')}
+              >
+                {t('home.viewCharacters')}
+              </Button>
+              <Button
+                variant="outlined"
+                size="large"
+                sx={{ color: 'white', borderColor: 'white', '&:hover': { borderColor: 'white', backgroundColor: 'rgba(255,255,255,0.1)' } }}
+                startIcon={<SearchIcon />}
+                onClick={() => navigate('/search')}
+              >
+                {t('home.advancedSearch')}
+              </Button>
+            </Box>
+          </Box>
         </Box>
       </Paper>
 
@@ -78,19 +113,19 @@ export const Home = () => {
               {aliveCount}
             </Typography>
             <Typography color="text.secondary">
-              {t('home.aliveFavorites', 'Favoritos Vivos')}
+              {t('home.aliveFavorites')}
             </Typography>
           </Paper>
         </Grid>
 
         <Grid size={{ xs: 12, sm: 4 }}>
           <Paper sx={{ p: 2, textAlign: 'center' }} elevation={2}>
-            <HelpOutlinedIcon color="action" sx={{ fontSize: 36, mb: 0.5 }} />
+            <HelpOutlinedIcon sx={{ fontSize: 36, mb: 0.5, color: 'text.secondary' }} />
             <Typography variant="h4" sx={{ fontWeight: 'bold', color: 'text.secondary' }}>
               {unknownCount}
             </Typography>
             <Typography color="text.secondary">
-              {t('home.unknownFavorites', 'Favoritos Desconocidos')}
+              {t('home.unknownFavorites')}
             </Typography>
           </Paper>
         </Grid>
@@ -102,7 +137,7 @@ export const Home = () => {
               {deadCount}
             </Typography>
             <Typography color="text.secondary">
-              {t('home.deadFavorites', 'Favoritos Muertos')}
+              {t('home.deadFavorites')}
             </Typography>
           </Paper>
         </Grid>
@@ -114,7 +149,7 @@ export const Home = () => {
               {favorites.length}
             </Typography>
             <Typography color="text.secondary">
-              {t('home.totalFavorites', 'Total Favoritos')}
+              {t('home.totalFavorites')}
             </Typography>
           </Paper>
         </Grid>
@@ -123,12 +158,12 @@ export const Home = () => {
       <Divider sx={{ my: 4 }} />
 
       <Typography variant="h5" sx={{ mb: 2, fontWeight: 'bold' }}>
-        {t('home.myFavorites', 'Tus Personajes Favoritos')}
+        {t('home.myFavorites')}
       </Typography>
 
       {favorites.length === 0 ? (
         <Alert severity="info">
-          {t('home.noFavorites', 'Aún no has guardado ningún personaje en favoritos. Entra al detalle de cualquier personaje y pulsa el corazón para guardarlo.')}
+          {t('home.noFavorites')}
         </Alert>
       ) : (
         <Grid container spacing={3}>

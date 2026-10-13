@@ -113,13 +113,13 @@ export const CharacterDetail = () => {
           <Divider sx={{ my: 2 }} />
 
           <Typography variant="body1" sx={{ mb: 1 }}>
-            <strong>Origen:</strong> {character.origin.name}
+            <strong>{t('detail.origin')}</strong> {character.origin.name}
           </Typography>
           <Typography variant="body1" sx={{ mb: 1 }}>
-            <strong>Ubicación actual:</strong> {character.location.name}
+            <strong>{t('detail.currentLocation')}</strong> {character.location.name}
           </Typography>
           <Typography variant="body1">
-            <strong>Apariciones en episodios:</strong> {character.episode.length} episodios
+            <strong>{t('detail.episodeAppearances')}</strong> {character.episode.length} {t('detail.episodes')}
           </Typography>
         </CardContent>
       </Card>

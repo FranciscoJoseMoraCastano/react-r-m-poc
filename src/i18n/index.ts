@@ -42,7 +42,11 @@ void i18n
           },
           detail: {
             goBackButton: 'Volver',
-            notFoundMsg: 'Personaje no encontrado'
+            notFoundMsg: 'Personaje no encontrado',
+            origin: 'Origen:',
+            currentLocation: 'Ubicación actual:',
+            episodeAppearances: 'Apariciones en episodios:',
+            episodes: 'episodios'
           }
         }
       },
@@ -81,7 +85,11 @@ void i18n
           },
           detail: {
             goBackButton: 'Go Back',
-            notFoundMsg: 'Character not found'
+            notFoundMsg: 'Character not found',
+            origin: 'Origin:',
+            currentLocation: 'Current Location:',
+            episodeAppearances: 'Episode Appearances:',
+            episodes: 'episodes'
           }
         }
       },
