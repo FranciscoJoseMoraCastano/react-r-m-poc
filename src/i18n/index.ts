@@ -16,6 +16,20 @@ void i18n
           },
           home: {
             title: 'Bienvenido a Rick & Morty Explorer',
+          },
+          list: {
+            title: 'Personajes de Rick & Morty'
+          },
+          search: {
+            title: 'Búsqueda Avanzada',
+            nameLabel: 'Nombre del personaje',
+            namePlaceholder: 'Ej: Rick, Morty...',
+            statusLabel: 'Estado',
+            allStatuses: 'Todos',
+            alive: 'Vivo',
+            dead: 'Muerto',
+            unknown: 'Desconocido',
+            submitButton: 'Buscar',
           }
         }
       },
@@ -28,6 +42,20 @@ void i18n
           },
           home: {
             title: 'Welcome to Rick & Morty Explorer',
+          },
+          list: {
+            title: 'Rick & Morty Characters'
+          },
+          search: {
+            title: 'Advanced Search',
+            nameLabel: 'Character Name',
+            namePlaceholder: 'E.g. Rick, Morty...',
+            statusLabel: 'Status',
+            allStatuses: 'All',
+            alive: 'Alive',
+            dead: 'Dead',
+            unknown: 'Unknown',
+            submitButton: 'Search',
           }
         }
       },

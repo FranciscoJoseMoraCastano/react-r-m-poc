@@ -1,4 +1,3 @@
-// src/pages/Characters.tsx
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -16,11 +15,13 @@ import {
 } from '@mui/material';
 import { useCharacters } from '../hooks/useCharacters';
 import { Character } from '../types/character';
+import { useTranslation } from 'react-i18next';
 
 export const Characters = () => {
   const [page, setPage] = useState<number>(1);
   const { data, loading, error } = useCharacters(page);
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
     setPage(value);
@@ -36,7 +37,7 @@ export const Characters = () => {
   return (
     <Box>
       <Typography variant="h4" sx={{ mb: 3 }}>
-        Personajes de Rick & Morty
+        {t('list.title')}
       </Typography>
 
       {error && (

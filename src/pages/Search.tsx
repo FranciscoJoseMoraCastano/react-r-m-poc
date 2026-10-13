@@ -19,6 +19,7 @@ import {
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { Character, CharacterApiResponse } from '../types/character';
+import { useTranslation } from 'react-i18next';
 
 interface SearchInputs {
   name: string;
@@ -31,6 +32,7 @@ export const Search = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [searched, setSearched] = useState<boolean>(false);
+  const { t } = useTranslation();
 
   const { register, handleSubmit } = useForm<SearchInputs>({
     defaultValues: {
@@ -80,7 +82,7 @@ export const Search = () => {
   return (
     <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
       <Typography variant="h4" sx={{ mb: 3 }}>
-        Búsqueda Avanzada
+        {t('search.title')}
       </Typography>
 
       <Paper sx={{ p: 3, mb: 4 }} elevation={2}>
@@ -96,23 +98,23 @@ export const Search = () => {
         >
           <TextField
             fullWidth
-            label="Nombre del personaje"
-            placeholder="Ej: Rick, Morty, Summer..."
+            label={t('search.nameLabel')}
+            placeholder={t('search.namePlaceholder')}
             {...register('name')}
           />
 
           <TextField
             select
             fullWidth
-            label="Estado"
+            label={t('search.statusLabel')}
             defaultValue=""
             sx={{ minWidth: { sm: 200 } }}
             {...register('status')}
           >
-            <MenuItem value="">Todos</MenuItem>
-            <MenuItem value="alive">Vivo (Alive)</MenuItem>
-            <MenuItem value="dead">Muerto (Dead)</MenuItem>
-            <MenuItem value="unknown">Desconocido (Unknown)</MenuItem>
+            <MenuItem value="">{t('search.allStatuses')}</MenuItem>
+            <MenuItem value="alive">{t('search.alive')}</MenuItem>
+            <MenuItem value="dead">{t('search.dead')}</MenuItem>
+            <MenuItem value="unknown">{t('search.unknown')}</MenuItem>
           </TextField>
 
           <Button
@@ -122,7 +124,7 @@ export const Search = () => {
             startIcon={<SearchIcon />}
             sx={{ height: 56, px: 4, width: { xs: '100%', sm: 'auto' } }}
           >
-            Buscar
+            {t('search.submitButton')}
           </Button>
         </Box>
       </Paper>
