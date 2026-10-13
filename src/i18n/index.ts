@@ -16,6 +16,15 @@ void i18n
           },
           home: {
             title: 'Bienvenido a Rick & Morty Explorer',
+            subtitle: 'Explora personajes, realiza búsquedas filtradas y guarda tus favoritos localmente.',
+            viewCharacters:  'Ver Personajes',
+            advancedSearch: 'Búsqueda Avanzada',
+            totalFavorites: 'Total Favoritos',
+            aliveFavorites: 'Favoritos Vivos',
+            unknownFavorites: 'Favoritos Desconocidos',
+            deadFavorites: 'Favoritos Muertos',
+            myFavorites: 'Tus Personajes Favoritos',
+            noFavorites: 'Aún no has guardado ningún personaje en favoritos. Entra al detalle de cualquier personaje y pulsa el corazón para guardarlo.'
           },
           list: {
             title: 'Personajes de Rick & Morty'
@@ -30,6 +39,10 @@ void i18n
             dead: 'Muerto',
             unknown: 'Desconocido',
             submitButton: 'Buscar',
+          },
+          detail: {
+            goBackButton: 'Volver',
+            notFoundMsg: 'Personaje no encontrado'
           }
         }
       },
@@ -42,6 +55,15 @@ void i18n
           },
           home: {
             title: 'Welcome to Rick & Morty Explorer',
+            subtitle: 'Explore characters, perform filtered searches and save your favorites locally.',
+            viewCharacters: 'View Characters',
+            advancedSearch: 'Advanced Search',
+            totalFavorites: 'Total Favorites',
+            aliveFavorites: 'Alive Favorites',
+            unknownFavorites: 'Unknonwn Favorites',
+            deadFavorites: 'Dead Favorites',
+            myFavorites: 'Your Favorite Characters',
+            noFavorites: "You haven't added any characters to your favorites yet. Visit any character's detail page and tap the heart to save them."
           },
           list: {
             title: 'Rick & Morty Characters'
@@ -56,6 +78,10 @@ void i18n
             dead: 'Dead',
             unknown: 'Unknown',
             submitButton: 'Search',
+          },
+          detail: {
+            goBackButton: 'Go Back',
+            notFoundMsg: 'Character not found'
           }
         }
       },

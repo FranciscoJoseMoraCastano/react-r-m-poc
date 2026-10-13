@@ -1,3 +1,4 @@
+// src/pages/CharacterDetail.tsx
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
@@ -11,22 +12,31 @@ import {
   CircularProgress,
   Alert,
   Divider,
+  IconButton,
 } from '@mui/material';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Character } from '../types/character';
+import { useFavorites } from '../context/FavoritesContext';
+import { useTranslation } from 'react-i18next';
 
 export const CharacterDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { isFavorite, toggleFavorite } = useFavorites();
 
   const [character, setCharacter] = useState<Character | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [errorCode, setErrorCode] = useState<string | null>(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (!id) return;
 
     setLoading(true);
+    setErrorCode(null);
     fetch(`https://rickandmortyapi.com/api/character/${id}`)
       .then((res) => {
         if (!res.ok) throw new Error('Personaje no encontrado');
@@ -55,21 +65,29 @@ export const CharacterDetail = () => {
       <Box>
         <Alert severity="error">{error ?? 'No se encontró el personaje'}</Alert>
         <Button sx={{ mt: 2 }} startIcon={<ArrowBackIcon />} onClick={() => navigate(-1)}>
-          Volver
+          {t('detail.goBackButton')}
         </Button>
       </Box>
     );
   }
 
+  const favoriteActive = isFavorite(character.id);
+
   return (
     <Box sx={{ maxWidth: 800, mx: 'auto' }}>
-      <Button
-        startIcon={<ArrowBackIcon />}
-        onClick={() => navigate(-1)}
-        sx={{ mb: 2 }}
-      >
-        Volver
-      </Button>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 2 }}>
+        <Button startIcon={<ArrowBackIcon />} onClick={() => navigate(-1)}>
+          {t('detail.goBackButton')}
+        </Button>
+        <IconButton
+          color="error"
+          onClick={() => toggleFavorite(character)}
+          aria-label="favorito"
+          size="large"
+        >
+          {favoriteActive ? <FavoriteIcon fontSize="large" /> : <FavoriteBorderIcon fontSize="large" />}
+        </IconButton>
+      </Box>
 
       <Card sx={{ display: { xs: 'block', sm: 'flex' } }}>
         <CardMedia
