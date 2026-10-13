@@ -3,7 +3,7 @@ import { Home } from './pages/Home';
 import { Characters } from './pages/Characters';
 import { CharacterDetail } from './pages/CharacterDetail';
 import { Search } from './pages/Search';
-import { AppBar, Toolbar, Button, Box, Select, MenuItem } from '@mui/material';
+import { AppBar, Toolbar, Button, Box, Select, MenuItem, CssBaseline } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 function App() {
@@ -15,6 +15,7 @@ function App() {
 
   return (
     <BrowserRouter>
+    <CssBaseline />
       <AppBar position="static">
         <Toolbar>
           <Box sx={{ flexGrow: 1, display: 'flex', gap: 2 }}>
