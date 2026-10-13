@@ -16,6 +16,7 @@ import {
 import { useCharacters } from '../hooks/useCharacters';
 import { Character } from '../types/character';
 import { useTranslation } from 'react-i18next';
+import { getStatusLabel, getSpeciesLabel } from '../utils/characterI18n';
 
 export const Characters = () => {
   const [page, setPage] = useState<number>(1);
@@ -69,11 +70,15 @@ export const Characters = () => {
                       </Typography>
                       <Box sx={{ mt: 1, display: 'flex', gap: 1 }}>
                         <Chip
-                          label={char.status}
+                          label={getStatusLabel(char.status, char.gender, t)}
                           size="small"
                           color={getStatusColor(char.status)}
                         />
-                        <Chip label={char.species} size="small" variant="outlined" />
+                        <Chip
+                          label={getSpeciesLabel(char.species, t)}
+                          size="small"
+                          variant="outlined"
+                        />
                       </Box>
                     </CardContent>
                   </CardActionArea>

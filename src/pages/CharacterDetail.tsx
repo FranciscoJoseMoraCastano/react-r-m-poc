@@ -1,4 +1,3 @@
-// src/pages/CharacterDetail.tsx
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
@@ -20,6 +19,7 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Character } from '../types/character';
 import { useFavorites } from '../context/FavoritesContext';
 import { useTranslation } from 'react-i18next';
+import { getStatusLabel, getSpeciesLabel, getGenderLabel } from '../utils/characterI18n';
 
 export const CharacterDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -29,14 +29,12 @@ export const CharacterDetail = () => {
   const [character, setCharacter] = useState<Character | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [errorCode, setErrorCode] = useState<string | null>(null);
   const { t } = useTranslation();
 
   useEffect(() => {
     if (!id) return;
 
     setLoading(true);
-    setErrorCode(null);
     fetch(`https://rickandmortyapi.com/api/character/${id}`)
       .then((res) => {
         if (!res.ok) throw new Error('Personaje no encontrado');
@@ -103,11 +101,11 @@ export const CharacterDetail = () => {
 
           <Box sx={{ display: 'flex', gap: 1, mb: 2 }}>
             <Chip
-              label={character.status}
+              label={getStatusLabel(character.status, character.gender, t)}
               color={character.status === 'Alive' ? 'success' : character.status === 'Dead' ? 'error' : 'default'}
             />
-            <Chip label={character.species} variant="outlined" />
-            <Chip label={character.gender} variant="outlined" />
+            <Chip label={getSpeciesLabel(character.species, t)} variant="outlined" />
+            <Chip label={getGenderLabel(character.gender, t)} variant="outlined" />
           </Box>
 
           <Divider sx={{ my: 2 }} />

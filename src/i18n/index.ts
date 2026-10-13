@@ -47,7 +47,32 @@ void i18n
             currentLocation: 'Ubicación actual:',
             episodeAppearances: 'Apariciones en episodios:',
             episodes: 'episodios'
-          }
+          },
+          character: {
+            status: {
+              alive_male: 'Vivo',
+              alive_female: 'Viva',
+              dead_male: 'Muerto',
+              dead_female: 'Muerta',
+              unknown: 'Desconocido',
+            },
+            gender: {
+              female: 'Femenino',
+              male: 'Masculino',
+              genderless: 'Sin género',
+              unknown: 'Desconocido',
+            },
+            species: {
+              human: 'Humano',
+              alien: 'Alienígena',
+              humanoid: 'Humanoide',
+              robot: 'Robot',
+              animal: 'Animal',
+              mythological: 'Mitológico',
+              disease: 'Enfermedad',
+              unknown: 'Desconocido',
+            },
+          },
         }
       },
       en: {
@@ -90,7 +115,30 @@ void i18n
             currentLocation: 'Current Location:',
             episodeAppearances: 'Episode Appearances:',
             episodes: 'episodes'
-          }
+          },
+          character: {
+            status: {
+              alive: 'Alive',
+              dead: 'Dead',
+              unknown: 'Unknown',
+            },
+            gender: {
+              female: 'Female',
+              male: 'Male',
+              genderless: 'Genderless',
+              unknown: 'Unknown',
+            },
+            species: {
+              human: 'Human',
+              alien: 'Alien',
+              humanoid: 'Humanoid',
+              robot: 'Robot',
+              animal: 'Animal',
+              mythological: 'Mythological',
+              disease: 'Disease',
+              unknown: 'Unknown',
+            },
+          },
         }
       },
     },
