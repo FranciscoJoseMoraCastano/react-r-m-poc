@@ -20,7 +20,8 @@ import HelpOutlinedIcon from '@mui/icons-material/HelpOutlined';
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { useFavorites } from '../context/FavoritesContext';
-import { Character } from '../types/character';
+import { MinimalCharacter } from '../types/character';
+import { getStatusLabel, getSpeciesLabel } from '../utils/characterI18n';
 
 export const Home = () => {
   const { t } = useTranslation();
@@ -167,7 +168,7 @@ export const Home = () => {
         </Alert>
       ) : (
         <Grid container spacing={3}>
-          {favorites.map((char: Character) => (
+          {favorites.map((char: MinimalCharacter) => (
             <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={char.id}>
               <Card sx={{ height: '100%' }}>
                 <CardActionArea onClick={() => navigate(`/characters/${char.id}`)}>
@@ -177,7 +178,7 @@ export const Home = () => {
                       {char.name}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      {char.species} • {char.status}
+                      {getSpeciesLabel(char.species, t)} • {getStatusLabel(char.status, char.gender, t)}
                     </Typography>
                   </CardContent>
                 </CardActionArea>

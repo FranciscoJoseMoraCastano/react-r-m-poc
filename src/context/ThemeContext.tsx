@@ -37,7 +37,7 @@ export const CustomThemeProvider = ({ children }: { children: ReactNode }) => {
 export const useColorMode = () => {
   const context = useContext(ColorModeContext);
   if (!context) {
-    throw new Error('useColorMode debe usarse dentro de CustomThemeProvider');
+    throw new Error('[useColorMode] Must be used within a CustomThemeProvider');
   }
   return context;
 };

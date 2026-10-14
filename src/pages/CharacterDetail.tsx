@@ -25,19 +25,29 @@ export const CharacterDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { isFavorite, toggleFavorite } = useFavorites();
+  const { t } = useTranslation();
 
   const [character, setCharacter] = useState<Character | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const { t } = useTranslation();
 
   useEffect(() => {
     if (!id) return;
 
+    const controller = new AbortController();
     setLoading(true);
-    fetch(`https://rickandmortyapi.com/api/character/${id}`)
+    setError(null);
+
+    fetch(`https://rickandmortyapi.com/api/character/${id}`, {
+      signal: controller.signal,
+    })
       .then((res) => {
-        if (!res.ok) throw new Error('Personaje no encontrado');
+        if (res.status === 404) {
+          throw new Error('errors.notFound');
+        }
+        if (!res.ok) {
+          throw new Error('errors.loadCharacter');
+        }
         return res.json() as Promise<Character>;
       })
       .then((data) => {
@@ -45,9 +55,22 @@ export const CharacterDetail = () => {
         setLoading(false);
       })
       .catch((err: unknown) => {
-        setError(err instanceof Error ? err.message : 'Error al cargar el personaje');
+        if (err instanceof DOMException && err.name === 'AbortError') return;
+
+        console.error(`[CharacterDetail] Failed to fetch character with id ${id}:`, err);
+
+        const errorKey =
+          err instanceof Error && err.message.startsWith('errors.')
+            ? err.message
+            : 'errors.loadCharacter';
+
+        setError(errorKey);
         setLoading(false);
       });
+
+    return () => {
+      controller.abort();
+    };
   }, [id]);
 
   if (loading) {
@@ -60,8 +83,10 @@ export const CharacterDetail = () => {
 
   if (error || !character) {
     return (
-      <Box>
-        <Alert severity="error">{error ?? 'No se encontró el personaje'}</Alert>
+      <Box sx={{ maxWidth: 800, mx: 'auto', mt: 2 }}>
+        <Alert severity="error">
+          {t(error || 'errors.notFound')}
+        </Alert>
         <Button sx={{ mt: 2 }} startIcon={<ArrowBackIcon />} onClick={() => navigate(-1)}>
           {t('detail.goBackButton')}
         </Button>
@@ -117,7 +142,7 @@ export const CharacterDetail = () => {
             <strong>{t('detail.currentLocation')}</strong> {character.location.name}
           </Typography>
           <Typography variant="body1">
-            <strong>{t('detail.episodeAppearances')}</strong> {character.episode.length} {t('detail.episodes')}
+            <strong>{t('detail.episodeAppearances')}</strong> {character.episode.length}
           </Typography>
         </CardContent>
       </Card>

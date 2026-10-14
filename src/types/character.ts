@@ -28,3 +28,13 @@ export interface Character {
   url: string;
   created: string;
 }
+
+export type MinimalCharacter = Pick<
+  Character,
+  'id' | 'name' | 'status' | 'species' | 'gender' | 'image'
+>;
+
+export interface CachedApiResponse {
+  info: CharacterApiResponse['info'];
+  results: MinimalCharacter[];
+}

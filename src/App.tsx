@@ -19,10 +19,14 @@ import DarkModeIcon from '@mui/icons-material/DarkMode';
 import { useTranslation } from 'react-i18next';
 import { FavoritesProvider } from './context/FavoritesContext';
 import { CustomThemeProvider, useColorMode } from './context/ThemeContext';
+import { supportedLanguages } from './i18n';
 
 const NavigationBar = () => {
   const { t, i18n } = useTranslation();
   const { mode, toggleColorMode } = useColorMode();
+  const currentLang = supportedLanguages.some((l) => i18n.language.startsWith(l.code))
+  ? i18n.language.slice(0, 2)
+  : 'es';
 
   const changeLanguage = async (event: SelectChangeEvent) => {
     await i18n.changeLanguage(event.target.value);
@@ -58,16 +62,16 @@ const NavigationBar = () => {
           </IconButton>
 
           <Select
-            value={i18n.language.startsWith('en') ? 'en' : 'es'}
+            value={currentLang}
             onChange={changeLanguage}
             size="small"
-            sx={{
-              minWidth: 70,
-              height: 38,
-            }}
+            sx={{ minWidth: 75, height: 38 }}
           >
-            <MenuItem value="es">ES</MenuItem>
-            <MenuItem value="en">EN</MenuItem>
+            {supportedLanguages.map((lang) => (
+              <MenuItem key={lang.code} value={lang.code}>
+                {lang.label}
+              </MenuItem>
+            ))}
           </Select>
         </Box>
       </Toolbar>

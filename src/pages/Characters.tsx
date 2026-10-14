@@ -18,13 +18,13 @@ import {
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useCharacters } from '../hooks/useCharacters';
-import { Character } from '../types/character';
+import { MinimalCharacter } from '../types/character';
 import { useFavorites } from '../context/FavoritesContext';
 import { getStatusLabel, getSpeciesLabel } from '../utils/characterI18n';
 
 export const Characters = () => {
   const [page, setPage] = useState<number>(1);
-  const { data, loading, error } = useCharacters(page);
+  const { data, loading, error } = useCharacters({ page });
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { isFavorite, toggleFavorite } = useFavorites();
@@ -59,7 +59,7 @@ export const Characters = () => {
       ) : (
         <>
           <Grid container spacing={3}>
-            {data?.results.map((char: Character) => (
+            {data?.results.map((char: MinimalCharacter) => (
               <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={char.id}>
                 <Card
                   sx={{

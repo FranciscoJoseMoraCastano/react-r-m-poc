@@ -1,0 +1,75 @@
+{
+  "errors": {
+    "generic": "Une erreur inattendue s'est produite. Veuillez réessayer.",
+    "notFound": "Aucun résultat trouvé pour votre recherche.",
+    "network": "Impossible de se connecter au serveur. Vérifiez votre connexion.",
+    "loadCharacter": "Impossible de charger les informations du personnage."
+  },
+  "nav": {
+    "home": "Accueil",
+    "characters": "Personnages",
+    "search": "Recherche"
+  },
+  "home": {
+    "title": "Rick & Morty Explorer",
+    "subtitle": "Explorez le multivers, sauvegardez vos personnages préférés et analysez leurs états.",
+    "viewCharacters": "Voir Personnages",
+    "advancedSearch": "Recherche Avancée",
+    "aliveFavorites": "Favoris Vivants",
+    "unknownFavorites": "Favoris Inconnus",
+    "deadFavorites": "Favoris Morts",
+    "totalFavorites": "Total Favoris",
+    "myFavorites": "Vos Personnages Préférés",
+    "noFavorites": "Vous n'avez encore sauvegardé aucun personnage dans vos favoris."
+  },
+  "list": {
+    "title": "Personnages du Multivers"
+  },
+  "search": {
+    "title": "Recherche Avancée",
+    "nameLabel": "Nom du personnage",
+    "namePlaceholder": "Ex : Rick, Morty...",
+    "statusLabel": "Statut",
+    "allStatuses": "Tous",
+    "alive": "Vivant",
+    "dead": "Mort",
+    "unknown": "Inconnu",
+    "submitButton": "Rechercher"
+  },
+  "detail": {
+    "notFound": "Personnage introuvable",
+    "origin": "Origine:",
+    "location": "Emplacement actuel:",
+    "episodeAppearances": "Nombre d'apparitions:",
+    "goBackButton": "Retour"
+  },
+  "character": {
+    "status": {
+      "alive": "Vivant",
+      "alive_male": "Vivant",
+      "alive_female": "Vivante",
+      "dead": "Mort",
+      "dead_male": "Mort",
+      "dead_female": "Morte",
+      "unknown": "Inconnu",
+      "unknown_male": "Inconnu",
+      "unknown_female": "Inconnue"
+    },
+    "gender": {
+      "female": "Féminin",
+      "male": "Masculin",
+      "genderless": "Sans genre",
+      "unknown": "Inconnu"
+    },
+    "species": {
+      "human": "Humain",
+      "alien": "Extraterrestre",
+      "humanoid": "Humanoïde",
+      "robot": "Robot",
+      "animal": "Animal",
+      "mythological": "Mythologique",
+      "disease": "Maladie",
+      "unknown": "Inconnu"
+    }
+  }
+}

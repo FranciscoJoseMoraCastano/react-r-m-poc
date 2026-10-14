@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   Box,
+  Typography,
   TextField,
   MenuItem,
   Button,
@@ -11,66 +12,67 @@ import {
   CardMedia,
   CardContent,
   CardActionArea,
-  Typography,
-  Chip,
+  Pagination,
   CircularProgress,
   Alert,
+  Chip,
+  IconButton,
   Paper,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import { Character, CharacterApiResponse } from '../types/character';
-import { useTranslation } from 'react-i18next';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { useCharacters } from '../hooks/useCharacters';
+import { useFavorites } from '../context/FavoritesContext';
+import { getStatusLabel, getSpeciesLabel } from '../utils/characterI18n';
 
-interface SearchInputs {
+interface FormValues {
   name: string;
   status: string;
 }
 
 export const Search = () => {
-  const navigate = useNavigate();
-  const [results, setResults] = useState<Character[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
-  const [searched, setSearched] = useState<boolean>(false);
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const { isFavorite, toggleFavorite } = useFavorites();
 
-  const { register, handleSubmit } = useForm<SearchInputs>({
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const nameParam = searchParams.get('name') ?? '';
+  const statusParam = searchParams.get('status') ?? 'all';
+  const pageParam = Number(searchParams.get('page')) || 1;
+
+  const { register, handleSubmit } = useForm<FormValues>({
     defaultValues: {
-      name: '',
-      status: '',
+      name: nameParam,
+      status: statusParam,
     },
   });
 
-  const onSubmit = async (formData: SearchInputs) => {
-    setLoading(true);
-    setError(null);
-    setSearched(true);
+  const { data, loading, error } = useCharacters({
+    page: pageParam,
+    name: nameParam,
+    status: statusParam === 'all' ? '' : statusParam,
+  });
 
-    try {
-      const params = new URLSearchParams();
-      if (formData.name.trim()) params.append('name', formData.name.trim());
-      if (formData.status) params.append('status', formData.status);
+  const onSubmit = (formData: FormValues) => {
+    const nextParams: Record<string, string> = {};
 
-      const response = await fetch(
-        `https://rickandmortyapi.com/api/character/?${params.toString()}`
-      );
+    if (formData.name.trim()) nextParams.name = formData.name.trim();
+    if (formData.status && formData.status !== 'all') nextParams.status = formData.status;
 
-      if (response.status === 404) {
-        setResults([]);
-        return;
-      }
+    setSearchParams(nextParams);
+  };
 
-      if (!response.ok) {
-        throw new Error('Ocurrió un error al consultar la API');
-      }
-
-      const data: CharacterApiResponse = await response.json();
-      setResults(data.results);
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Error desconocido');
-    } finally {
-      setLoading(false);
+  const handlePageChange = (_: unknown, newPage: number) => {
+    const nextParams = new URLSearchParams(searchParams);
+    if (newPage > 1) {
+      nextParams.set('page', String(newPage));
+    } else {
+      nextParams.delete('page');
     }
+    setSearchParams(nextParams);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const getStatusColor = (status: string) => {
@@ -82,97 +84,139 @@ export const Search = () => {
   return (
     <Box sx={{ maxWidth: 1200, mx: 'auto' }}>
       <Typography variant="h4" sx={{ mb: 3 }}>
-        {t('search.title')}
+        {t('search.title', 'Búsqueda Avanzada')}
       </Typography>
 
       <Paper sx={{ p: 3, mb: 4 }} elevation={2}>
         <Box
           component="form"
           onSubmit={handleSubmit(onSubmit)}
-          sx={{
-            display: 'flex',
-            flexDirection: { xs: 'column', sm: 'row' },
-            gap: 2,
-            alignItems: 'center',
-          }}
+          sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}
         >
           <TextField
-            fullWidth
-            label={t('search.nameLabel')}
-            placeholder={t('search.namePlaceholder')}
             {...register('name')}
+            label={t('search.nameLabel', 'Nombre del personaje')}
+            placeholder={t('search.namePlaceholder', 'Ej: Rick, Morty...')}
+            size="small"
+            sx={{ flex: 1, minWidth: 200 }}
           />
 
           <TextField
-            select
-            fullWidth
-            label={t('search.statusLabel')}
-            defaultValue=""
-            sx={{ minWidth: { sm: 200 } }}
             {...register('status')}
+            select
+            defaultValue={statusParam}
+            label={t('search.statusLabel', 'Estado')}
+            size="small"
+            sx={{ width: 160 }}
           >
-            <MenuItem value="">{t('search.allStatuses')}</MenuItem>
-            <MenuItem value="alive">{t('search.alive')}</MenuItem>
-            <MenuItem value="dead">{t('search.dead')}</MenuItem>
-            <MenuItem value="unknown">{t('search.unknown')}</MenuItem>
+            <MenuItem value="all">{t('search.allStatuses', 'Todos')}</MenuItem>
+            <MenuItem value="alive">{t('search.alive', 'Vivo')}</MenuItem>
+            <MenuItem value="dead">{t('search.dead', 'Muerto')}</MenuItem>
+            <MenuItem value="unknown">{t('search.unknown', 'Desconocido')}</MenuItem>
           </TextField>
 
-          <Button
-            type="submit"
-            variant="contained"
-            size="large"
-            startIcon={<SearchIcon />}
-            sx={{ height: 56, px: 4, width: { xs: '100%', sm: 'auto' } }}
-          >
-            {t('search.submitButton')}
+          <Button type="submit" variant="contained" startIcon={<SearchIcon />}>
+            {t('search.submitButton', 'Buscar')}
           </Button>
         </Box>
       </Paper>
 
-      {error && <Alert severity="error" sx={{ mb: 3 }}>{error}</Alert>}
-
       {loading && (
-        <Box sx={{ display: 'flex', justifyContent: 'center', py: 6 }}>
+        <Box sx={{ display: 'flex', justifyContent: 'center', py: 8 }}>
           <CircularProgress />
         </Box>
       )}
 
-      {!loading && searched && results.length === 0 && !error && (
-        <Alert severity="info">
-          No se encontraron personajes que coincidan con esos criterios de búsqueda.
+      {error && !loading && (
+        <Alert severity="info" sx={{ mb: 3 }}>
+          {t(error, 'No se han encontrado personajes con esos filtros.')}
         </Alert>
       )}
 
-      {!loading && results.length > 0 && (
-        <Grid container spacing={3}>
-          {results.map((char) => (
-            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={char.id}>
-              <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-                <CardActionArea onClick={() => navigate(`/characters/${char.id}`)}>
-                  <CardMedia
-                    component="img"
-                    height="220"
-                    image={char.image}
-                    alt={char.name}
-                  />
-                  <CardContent>
-                    <Typography variant="h6" noWrap>
-                      {char.name}
-                    </Typography>
-                    <Box sx={{ mt: 1, display: 'flex', gap: 1 }}>
-                      <Chip
-                        label={char.status}
-                        size="small"
-                        color={getStatusColor(char.status)}
-                      />
-                      <Chip label={char.species} size="small" variant="outlined" />
-                    </Box>
-                  </CardContent>
-                </CardActionArea>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
+      {!loading && data && (
+        <>
+          <Grid container spacing={3}>
+            {data.results.map((char) => (
+              <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={char.id}>
+                <Card
+                  sx={{
+                    height: '100%',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    position: 'relative',
+                    transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
+                    '&:hover': {
+                      transform: 'translateY(-6px)',
+                      boxShadow: 6,
+                    },
+                  }}
+                >
+                  <IconButton
+                    aria-label="favorito"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleFavorite(char as Parameters<typeof toggleFavorite>[0]);
+                    }}
+                    sx={{
+                      position: 'absolute',
+                      bottom: 12,
+                      right: 12,
+                      zIndex: 10,
+                      '&:hover': { bgcolor: 'action.hover' },
+                    }}
+                  >
+                    {isFavorite(char.id) ? (
+                      <FavoriteIcon color="error" />
+                    ) : (
+                      <FavoriteBorderIcon color="action" />
+                    )}
+                  </IconButton>
+
+                  <CardActionArea
+                    onClick={() => navigate(`/characters/${char.id}`)}
+                    sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column', alignItems: 'stretch' }}
+                  >
+                    <CardMedia
+                      component="img"
+                      height="240"
+                      image={char.image}
+                      alt={char.name}
+                    />
+                    <CardContent sx={{ flexGrow: 1, pr: 7 }}>
+                      <Typography variant="h6" noWrap>
+                        {char.name}
+                      </Typography>
+                      <Box sx={{ mt: 1, display: 'flex', gap: 1, flexWrap: 'wrap' }}>
+                        <Chip
+                          label={getStatusLabel(char.status, char.gender, t)}
+                          size="small"
+                          color={getStatusColor(char.status)}
+                        />
+                        <Chip
+                          label={getSpeciesLabel(char.species, t)}
+                          size="small"
+                          variant="outlined"
+                        />
+                      </Box>
+                    </CardContent>
+                  </CardActionArea>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+
+          {data.info.pages > 1 && (
+            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4, mb: 2 }}>
+              <Pagination
+                count={data.info.pages}
+                page={pageParam}
+                onChange={handlePageChange}
+                color="primary"
+                size="large"
+              />
+            </Box>
+          )}
+        </>
       )}
     </Box>
   );

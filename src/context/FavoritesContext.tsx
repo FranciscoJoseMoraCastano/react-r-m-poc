@@ -1,9 +1,9 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { Character } from '../types/character';
+import { MinimalCharacter } from '../types/character';
 
 interface FavoritesContextType {
-  favorites: Character[];
-  toggleFavorite: (character: Character) => void;
+  favorites: MinimalCharacter[];
+  toggleFavorite: (character: MinimalCharacter) => void;
   isFavorite: (id: number) => boolean;
 }
 
@@ -12,10 +12,10 @@ const STORAGE_KEY = 'rick_morty_favs';
 const FavoritesContext = createContext<FavoritesContextType | undefined>(undefined);
 
 export const FavoritesProvider = ({ children }: { children: ReactNode }) => {
-  const [favorites, setFavorites] = useState<Character[]>(() => {
+  const [favorites, setFavorites] = useState<MinimalCharacter[]>(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
-      return stored ? (JSON.parse(stored) as Character[]) : [];
+      return stored ? (JSON.parse(stored) as MinimalCharacter[]) : [];
     } catch {
       return [];
     }
@@ -25,11 +25,11 @@ export const FavoritesProvider = ({ children }: { children: ReactNode }) => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(favorites));
     } catch (error) {
-      console.error('Error al guardar favoritos en localStorage', error);
+      console.error('[FavoritesContext] Failed to persist favorites to localStorage:', error);
     }
   }, [favorites]);
 
-  const toggleFavorite = (character: Character) => {
+  const toggleFavorite = (character: MinimalCharacter) => {
     setFavorites((prev) => {
       const exists = prev.some((item) => item.id === character.id);
       if (exists) {
@@ -53,7 +53,7 @@ export const FavoritesProvider = ({ children }: { children: ReactNode }) => {
 export const useFavorites = () => {
   const context = useContext(FavoritesContext);
   if (!context) {
-    throw new Error('useFavorites debe usarse dentro de un FavoritesProvider');
+    throw new Error('[useFavorites] Must be used within a FavoritesProvider');
   }
   return context;
 };

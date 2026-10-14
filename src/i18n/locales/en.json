@@ -1,0 +1,69 @@
+{
+  "errors": {
+    "generic": "An unexpected error occurred. Please try again.",
+    "notFound": "No results found for your query.",
+    "network": "Could not connect to the server. Check your connection.",
+    "loadCharacter": "Failed to load character information."
+  },
+  "nav": {
+    "home": "Home",
+    "characters": "Characters",
+    "search": "Search"
+  },
+  "home": {
+    "title": "Rick & Morty Explorer",
+    "subtitle": "Explore the multiverse, save your favorites, and inspect character stats.",
+    "viewCharacters": "View Characters",
+    "advancedSearch": "Advanced Search",
+    "aliveFavorites": "Alive Favorites",
+    "unknownFavorites": "Unknown Favorites",
+    "deadFavorites": "Dead Favorites",
+    "totalFavorites": "Total Favorites",
+    "myFavorites": "Your Favorite Characters",
+    "noFavorites": "You haven't saved any characters to favorites yet."
+  },
+  "list": {
+    "title": "Multiverse Characters"
+  },
+  "search": {
+    "title": "Advanced Search",
+    "nameLabel": "Character Name",
+    "namePlaceholder": "e.g. Rick, Morty...",
+    "statusLabel": "Status",
+    "allStatuses": "All",
+    "alive": "Alive",
+    "dead": "Dead",
+    "unknown": "Unknown",
+    "submitButton": "Search"
+  },
+  "detail": {
+    "notFound": "Character not found",
+    "origin": "Origin:",
+    "currentLocation": "Current location:",
+    "episodeAppearances": "Episode Appearances:",
+    "goBackButton": "Go Back"
+  },
+  "character": {
+    "status": {
+      "alive": "Alive",
+      "dead": "Dead",
+      "unknown": "Unknown"
+    },
+    "gender": {
+      "female": "Female",
+      "male": "Male",
+      "genderless": "Genderless",
+      "unknown": "Unknown"
+    },
+    "species": {
+      "human": "Human",
+      "alien": "Alien",
+      "humanoid": "Humanoid",
+      "robot": "Robot",
+      "animal": "Animal",
+      "mythological": "Mythological",
+      "disease": "Disease",
+      "unknown": "Unknown"
+    }
+  }
+}

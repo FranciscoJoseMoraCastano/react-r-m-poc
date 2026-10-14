@@ -1,0 +1,72 @@
+{
+  "errors": {
+    "generic": "Ha ocurrido un error inesperado. Inténtalo de nuevo.",
+    "notFound": "No se han encontrado resultados para tu consulta.",
+    "network": "No se pudo conectar con el servidor. Revisa tu conexión.",
+    "loadCharacter": "No se pudo cargar la información del personaje."
+  },
+  "nav": {
+    "home": "Inicio",
+    "characters": "Personajes",
+    "search": "Búsqueda"
+  },
+  "home": {
+    "title": "Rick & Morty Explorer",
+    "subtitle": "Explora el multiverso, guarda tus personajes preferidos y analiza sus estados.",
+    "viewCharacters": "Ver Personajes",
+    "advancedSearch": "Búsqueda Avanzada",
+    "aliveFavorites": "Favoritos Vivos",
+    "unknownFavorites": "Favoritos Desconocidos",
+    "deadFavorites": "Favoritos Muertos",
+    "totalFavorites": "Total Favoritos",
+    "myFavorites": "Tus Personajes Favoritos",
+    "noFavorites": "Aún no has guardado ningún personaje en favoritos."
+  },
+  "list": {
+    "title": "Personajes del Multiverso"
+  },
+  "search": {
+    "title": "Búsqueda Avanzada",
+    "nameLabel": "Nombre del personaje",
+    "namePlaceholder": "Ej: Rick, Morty...",
+    "statusLabel": "Estado",
+    "allStatuses": "Todos",
+    "alive": "Vivo",
+    "dead": "Muerto",
+    "unknown": "Desconocido",
+    "submitButton": "Buscar"
+  },
+  "detail": {
+    "notFound": "Personaje no encontrado",
+    "origin": "Origen:",
+    "currentLocation": "Ubicación actual:",
+    "episodeAppearances": "Apariciones en episodios:",
+    "goBackButton": "Volver"
+  },
+  "character": {
+    "status": {
+      "alive_male": "Vivo",
+      "alive_female": "Viva",
+      "dead_male": "Muerto",
+      "dead_female": "Muerta",
+      "unknown_male": "Desconocido",
+      "unknown_female": "Desconocida"
+    },
+    "gender": {
+      "female": "Femenino",
+      "male": "Masculino",
+      "genderless": "Sin género",
+      "unknown": "Desconocido"
+    },
+    "species": {
+      "human": "Humano",
+      "alien": "Alienígena",
+      "humanoid": "Humanoide",
+      "robot": "Robot",
+      "animal": "Animal",
+      "mythological": "Mitológico",
+      "disease": "Enfermedad",
+      "unknown": "Desconocido"
+    }
+  }
+}
