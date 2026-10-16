@@ -1,4 +1,12 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+  ReactNode,
+} from 'react';
 import { MinimalCharacter } from '../types/character';
 
 interface FavoritesContextType {
@@ -29,7 +37,7 @@ export const FavoritesProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [favorites]);
 
-  const toggleFavorite = (character: MinimalCharacter) => {
+  const toggleFavorite = useCallback((character: MinimalCharacter) => {
     setFavorites((prev) => {
       const exists = prev.some((item) => item.id === character.id);
       if (exists) {
@@ -37,14 +45,26 @@ export const FavoritesProvider = ({ children }: { children: ReactNode }) => {
       }
       return [...prev, character];
     });
-  };
+  }, []);
 
-  const isFavorite = (id: number) => {
-    return favorites.some((item) => item.id === id);
-  };
+  const isFavorite = useCallback(
+    (id: number) => {
+      return favorites.some((item) => item.id === id);
+    },
+    [favorites]
+  );
+
+  const contextValue = useMemo(
+    () => ({
+      favorites,
+      toggleFavorite,
+      isFavorite,
+    }),
+    [favorites, toggleFavorite, isFavorite]
+  );
 
   return (
-    <FavoritesContext.Provider value={{ favorites, toggleFavorite, isFavorite }}>
+    <FavoritesContext.Provider value={contextValue}>
       {children}
     </FavoritesContext.Provider>
   );

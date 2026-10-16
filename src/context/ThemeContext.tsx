@@ -1,4 +1,12 @@
-import { createContext, useContext, useState, useEffect, useMemo, ReactNode } from 'react';
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useMemo,
+  useCallback,
+  ReactNode,
+} from 'react';
 import { ThemeProvider, PaletteMode } from '@mui/material';
 import { createAppTheme } from '../theme/theme';
 
@@ -21,14 +29,22 @@ export const CustomThemeProvider = ({ children }: { children: ReactNode }) => {
     localStorage.setItem(STORAGE_THEME_KEY, mode);
   }, [mode]);
 
-  const toggleColorMode = () => {
+  const toggleColorMode = useCallback(() => {
     setMode((prev) => (prev === 'light' ? 'dark' : 'light'));
-  };
+  }, []);
 
   const theme = useMemo(() => createAppTheme(mode), [mode]);
 
+  const colorModeValue = useMemo(
+    () => ({
+      mode,
+      toggleColorMode,
+    }),
+    [mode, toggleColorMode]
+  );
+
   return (
-    <ColorModeContext.Provider value={{ mode, toggleColorMode }}>
+    <ColorModeContext.Provider value={colorModeValue}>
       <ThemeProvider theme={theme}>{children}</ThemeProvider>
     </ColorModeContext.Provider>
   );
