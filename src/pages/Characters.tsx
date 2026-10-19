@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
   Grid,
@@ -23,14 +22,21 @@ import { useFavorites } from '../context/FavoritesContext';
 import { getStatusLabel, getSpeciesLabel } from '../utils/characterI18n';
 
 export const Characters = () => {
-  const [page, setPage] = useState<number>(1);
-  const { data, loading, error } = useCharacters({ page });
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { isFavorite, toggleFavorite } = useFavorites();
 
+  const page = Number(searchParams.get('page')) || 1;
+
+  const { data, loading, error } = useCharacters({ page });
+
   const handlePageChange = (_: React.ChangeEvent<unknown>, value: number) => {
-    setPage(value);
+    if (value > 1) {
+      setSearchParams({ page: String(value) });
+    } else {
+      setSearchParams({});
+    }
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -48,7 +54,7 @@ export const Characters = () => {
 
       {error && (
         <Alert severity="error" sx={{ mb: 3 }}>
-          {error}
+          {t(error)}
         </Alert>
       )}
 

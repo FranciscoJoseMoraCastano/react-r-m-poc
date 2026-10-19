@@ -178,7 +178,6 @@ export const Home = () => {
                     <Typography variant="h6" noWrap>
                       {char.name}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
                       <Box sx={{ display: 'flex', gap: 1, mb: 1, mt: 1 }}>
                         <Chip 
                           size="small" 
@@ -191,7 +190,6 @@ export const Home = () => {
                           color={getStatusColor(char.status)} 
                         />
                       </Box>
-                    </Typography>
                   </CardContent>
                 </CardActionArea>
               </Card>

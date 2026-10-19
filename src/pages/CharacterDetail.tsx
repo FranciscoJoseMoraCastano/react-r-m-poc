@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 import {
   Box,
   Card,
@@ -19,7 +19,26 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { Character } from '../types/character';
 import { useFavorites } from '../context/FavoritesContext';
 import { useTranslation } from 'react-i18next';
-import { getStatusLabel, getSpeciesLabel, getGenderLabel, getStatusColor } from '../utils/characterI18n';
+import {
+  getStatusLabel,
+  getSpeciesLabel,
+  getGenderLabel,
+  getStatusColor,
+} from '../utils/characterI18n';
+import { resolveErrorMessage } from '../utils/errorUtils';
+
+const fetchCharacter = async (id: string, signal?: AbortSignal): Promise<Character> => {
+  const res = await fetch(`https://rickandmortyapi.com/api/character/${id}`, { signal });
+
+  if (res.status === 404) {
+    throw new Error('errors.notFound');
+  }
+  if (!res.ok) {
+    throw new Error('errors.loadCharacter');
+  }
+
+  return res.json() as Promise<Character>;
+};
 
 export const CharacterDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -27,51 +46,20 @@ export const CharacterDetail = () => {
   const { isFavorite, toggleFavorite } = useFavorites();
   const { t } = useTranslation();
 
-  const [character, setCharacter] = useState<Character | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const {
+    data: character,
+    isLoading: loading,
+    isError,
+    error: queryError,
+  } = useQuery({
+    queryKey: ['character', id],
+    queryFn: ({ signal }) => fetchCharacter(id!, signal),
+    enabled: Boolean(id),
+    staleTime: 1000 * 60 * 5,
+    gcTime: 1000 * 60 * 15,
+  });
 
-  useEffect(() => {
-    if (!id) return;
-
-    const controller = new AbortController();
-    setLoading(true);
-    setError(null);
-
-    fetch(`https://rickandmortyapi.com/api/character/${id}`, {
-      signal: controller.signal,
-    })
-      .then((res) => {
-        if (res.status === 404) {
-          throw new Error('errors.notFound');
-        }
-        if (!res.ok) {
-          throw new Error('errors.loadCharacter');
-        }
-        return res.json() as Promise<Character>;
-      })
-      .then((data) => {
-        setCharacter(data);
-        setLoading(false);
-      })
-      .catch((err: unknown) => {
-        if (err instanceof DOMException && err.name === 'AbortError') return;
-
-        console.error(`[CharacterDetail] Failed to fetch character with id ${id}:`, err);
-
-        const errorKey =
-          err instanceof Error && err.message.startsWith('errors.')
-            ? err.message
-            : 'errors.loadCharacter';
-
-        setError(errorKey);
-        setLoading(false);
-      });
-
-    return () => {
-      controller.abort();
-    };
-  }, [id]);
+  const error = resolveErrorMessage(isError, queryError);
 
   if (loading) {
     return (
