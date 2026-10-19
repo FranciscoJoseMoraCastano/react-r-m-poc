@@ -111,7 +111,7 @@ export const Characters = () => {
                       </Typography>
                       <Box sx={{ mt: 1, display: 'flex', gap: 1, flexWrap: 'wrap' }}>
                         <Chip
-                          label={getStatusLabel(char.status, char.gender, t)}
+                          label={getStatusLabel(char.status, t, char.gender)}
                           size="small"
                           color={getStatusColor(char.status)}
                         />

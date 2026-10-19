@@ -12,6 +12,7 @@ import {
   Paper,
   Divider,
   Alert,
+  Chip,
 } from '@mui/material';
 import PeopleIcon from '@mui/icons-material/People';
 import SearchIcon from '@mui/icons-material/Search';
@@ -21,7 +22,7 @@ import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { useFavorites } from '../context/FavoritesContext';
 import { MinimalCharacter } from '../types/character';
-import { getStatusLabel, getSpeciesLabel } from '../utils/characterI18n';
+import { getStatusLabel, getSpeciesLabel, getStatusColor } from '../utils/characterI18n';
 
 export const Home = () => {
   const { t } = useTranslation();
@@ -178,7 +179,18 @@ export const Home = () => {
                       {char.name}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                      {getSpeciesLabel(char.species, t)} • {getStatusLabel(char.status, char.gender, t)}
+                      <Box sx={{ display: 'flex', gap: 1, mb: 1, mt: 1 }}>
+                        <Chip 
+                          size="small" 
+                          variant="outlined" 
+                          label={getSpeciesLabel(char.species, t)} 
+                          />
+                        <Chip 
+                          size="small" 
+                          label={getStatusLabel(char.status, t, char.gender)} 
+                          color={getStatusColor(char.status)} 
+                        />
+                      </Box>
                     </Typography>
                   </CardContent>
                 </CardActionArea>

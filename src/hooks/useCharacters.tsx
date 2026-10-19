@@ -44,14 +44,14 @@ export const useCharacters = (filters: CharacterFilters = {}) => {
         setError(null);
         return;
       }
-    } catch {
-    }
+    } catch { }
 
     const controller = new AbortController();
     setLoading(true);
     setError(null);
 
-    const endpoint = `https://rickandmortyapi.com/api/character/${queryString ? `?${queryString}` : ''}`;
+    const queryContent = queryString ? `?${queryString}` : '';
+    const endpoint = `https://rickandmortyapi.com/api/character/${queryContent}`;
 
     fetch(endpoint, { signal: controller.signal })
       .then(async (res) => {

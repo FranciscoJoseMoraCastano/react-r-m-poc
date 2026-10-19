@@ -95,8 +95,8 @@ export const Search = () => {
         >
           <TextField
             {...register('name')}
-            label={t('search.nameLabel', 'Nombre del personaje')}
-            placeholder={t('search.namePlaceholder', 'Ej: Rick, Morty...')}
+            label={t('search.nameLabel')}
+            placeholder={t('search.namePlaceholder')}
             size="small"
             sx={{ flex: 1, minWidth: 200 }}
           />
@@ -109,14 +109,14 @@ export const Search = () => {
             size="small"
             sx={{ width: 160 }}
           >
-            <MenuItem value="all">{t('search.allStatuses', 'Todos')}</MenuItem>
-            <MenuItem value="alive">{t('search.alive', 'Vivo')}</MenuItem>
-            <MenuItem value="dead">{t('search.dead', 'Muerto')}</MenuItem>
-            <MenuItem value="unknown">{t('search.unknown', 'Desconocido')}</MenuItem>
+            <MenuItem value="all">{t('search.allStatuses')}</MenuItem>
+            <MenuItem value="alive">{t('search.alive')}</MenuItem>
+            <MenuItem value="dead">{t('search.dead')}</MenuItem>
+            <MenuItem value="unknown">{t('search.unknown')}</MenuItem>
           </TextField>
 
           <Button type="submit" variant="contained" startIcon={<SearchIcon />}>
-            {t('search.submitButton', 'Buscar')}
+            {t('search.submitButton')}
           </Button>
         </Box>
       </Paper>
@@ -188,7 +188,7 @@ export const Search = () => {
                       </Typography>
                       <Box sx={{ mt: 1, display: 'flex', gap: 1, flexWrap: 'wrap' }}>
                         <Chip
-                          label={getStatusLabel(char.status, char.gender, t)}
+                          label={getStatusLabel(char.status, t, char.gender)}
                           size="small"
                           color={getStatusColor(char.status)}
                         />
